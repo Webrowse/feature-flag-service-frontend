@@ -3,6 +3,7 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import ProjectsPage from './pages/ProjectsPage';
 import EnvironmentsPage from './pages/EnvironmentsPage';
+import FlagsPage from './pages/FlagsPage';
 import ProtectedRoute from './components/ProtectedRoute';
 
 export default function App() {
@@ -24,6 +25,14 @@ export default function App() {
           element={
             <ProtectedRoute>
               <EnvironmentsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/projects/:projectId/environments/:environmentId"
+          element={
+            <ProtectedRoute>
+              <FlagsPage />
             </ProtectedRoute>
           }
         />
