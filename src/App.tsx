@@ -4,6 +4,7 @@ import RegisterPage from './pages/RegisterPage';
 import ProjectsPage from './pages/ProjectsPage';
 import EnvironmentsPage from './pages/EnvironmentsPage';
 import FlagsPage from './pages/FlagsPage';
+import RulesPage from './pages/RulesPage';
 import ProtectedRoute from './components/ProtectedRoute';
 
 export default function App() {
@@ -33,6 +34,14 @@ export default function App() {
           element={
             <ProtectedRoute>
               <FlagsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/projects/:projectId/environments/:environmentId/flags/:flagId"
+          element={
+            <ProtectedRoute>
+              <RulesPage />
             </ProtectedRoute>
           }
         />
