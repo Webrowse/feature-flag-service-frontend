@@ -12,7 +12,7 @@ export default function Navbar() {
 
   return (
     <nav>
-      <span onClick={() => navigate('/')} style={{ cursor: 'pointer', fontWeight: 'bold' }}>
+      <span onClick={() => navigate('/dashboard')} style={{ cursor: 'pointer', fontWeight: 'bold' }}>
         Feature Flags
       </span>
       <button onClick={handleLogout}>Logout</button>
