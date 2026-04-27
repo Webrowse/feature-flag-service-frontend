@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { projectsApi, Project } from '../api/projects';
+import { projectsApi } from '../api/projects';
+import type { Project } from '../api/projects';
 
 export default function ProjectsPage() {
   const navigate = useNavigate();
