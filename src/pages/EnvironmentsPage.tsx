@@ -21,6 +21,7 @@ export default function EnvironmentsPage() {
   const [newKey, setNewKey] = useState('');
   const [newDesc, setNewDesc] = useState('');
   const [creating, setCreating] = useState(false);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   useEffect(() => {
     if (!projectId) return;
@@ -50,6 +51,20 @@ export default function EnvironmentsPage() {
       setError(err instanceof Error ? err.message : 'Failed to create environment');
     } finally {
       setCreating(false);
+    }
+  }
+
+  async function handleDelete(envId: string) {
+    if (!projectId) return;
+    if (!confirm('Delete this environment and all its flags?')) return;
+    setDeletingId(envId);
+    try {
+      await environmentsApi.delete(projectId, envId);
+      setEnvironments(prev => prev.filter(e => e.id !== envId));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to delete environment');
+    } finally {
+      setDeletingId(null);
     }
   }
 
@@ -120,9 +135,20 @@ export default function EnvironmentsPage() {
                     <p className="text-xs text-stone-400 mt-0.5">{env.description}</p>
                   )}
                 </div>
-                <Badge variant="secondary" className="text-xs font-mono bg-stone-100 text-stone-500">
-                  {env.key}
-                </Badge>
+                <div className="flex items-center gap-2" onClick={e => e.stopPropagation()}>
+                  <Badge variant="secondary" className="text-xs font-mono bg-stone-100 text-stone-500">
+                    {env.key}
+                  </Badge>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    disabled={deletingId === env.id}
+                    onClick={() => handleDelete(env.id)}
+                    className="text-stone-400 hover:text-red-500 hover:bg-red-50 text-xs h-7 px-2"
+                  >
+                    {deletingId === env.id ? '...' : 'Delete'}
+                  </Button>
+                </div>
               </CardContent>
             </Card>
           ))}
