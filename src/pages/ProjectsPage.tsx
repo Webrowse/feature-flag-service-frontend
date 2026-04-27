@@ -14,6 +14,7 @@ export default function ProjectsPage() {
   const [newName, setNewName] = useState('');
   const [newDesc, setNewDesc] = useState('');
   const [creating, setCreating] = useState(false);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   useEffect(() => {
     projectsApi.list()
@@ -34,6 +35,19 @@ export default function ProjectsPage() {
       setError(err instanceof Error ? err.message : 'Failed to create project');
     } finally {
       setCreating(false);
+    }
+  }
+
+  async function handleDelete(projectId: string) {
+    if (!confirm('Delete this project and everything in it?')) return;
+    setDeletingId(projectId);
+    try {
+      await projectsApi.delete(projectId);
+      setProjects(prev => prev.filter(p => p.id !== projectId));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to delete project');
+    } finally {
+      setDeletingId(null);
     }
   }
 
@@ -93,13 +107,26 @@ export default function ProjectsPage() {
                 className="bg-white border border-stone-200 shadow-sm cursor-pointer hover:border-stone-400 hover:shadow-md transition-all"
               >
                 <CardContent className="p-5">
-                  <h2 className="font-semibold text-stone-800 mb-1">{p.name}</h2>
-                  {p.description && (
-                    <p className="text-sm text-stone-500">{p.description}</p>
-                  )}
-                  <p className="text-xs text-stone-400 mt-3">
-                    Created {new Date(p.created_at).toLocaleDateString()}
-                  </p>
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <h2 className="font-semibold text-stone-800 mb-1">{p.name}</h2>
+                      {p.description && (
+                        <p className="text-sm text-stone-500">{p.description}</p>
+                      )}
+                      <p className="text-xs text-stone-400 mt-3">
+                        Created {new Date(p.created_at).toLocaleDateString()}
+                      </p>
+                    </div>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      disabled={deletingId === p.id}
+                      onClick={e => { e.stopPropagation(); handleDelete(p.id); }}
+                      className="text-stone-400 hover:text-red-500 hover:bg-red-50 text-xs h-7 px-2 shrink-0"
+                    >
+                      {deletingId === p.id ? '...' : 'Delete'}
+                    </Button>
+                  </div>
                 </CardContent>
               </Card>
             ))}

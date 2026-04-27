@@ -20,6 +20,7 @@ export default function FlagsPage() {
   const [newName, setNewName] = useState('');
   const [newKey, setNewKey] = useState('');
   const [creating, setCreating] = useState(false);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   useEffect(() => {
     if (!projectId || !environmentId) return;
@@ -48,6 +49,20 @@ export default function FlagsPage() {
       setError(err instanceof Error ? err.message : 'Failed to create flag');
     } finally {
       setCreating(false);
+    }
+  }
+
+  async function handleDelete(flagId: string) {
+    if (!projectId || !environmentId) return;
+    if (!confirm('Delete this flag and all its rules?')) return;
+    setDeletingId(flagId);
+    try {
+      await flagsApi.delete(projectId, environmentId, flagId);
+      setFlags(prev => prev.filter(f => f.id !== flagId));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to delete flag');
+    } finally {
+      setDeletingId(null);
     }
   }
 
@@ -135,18 +150,29 @@ export default function FlagsPage() {
                       </Badge>
                     </div>
                   </div>
-                  <button
-                    onClick={() => handleToggle(flag)}
-                    className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors ${
-                      flag.enabled ? 'bg-stone-800' : 'bg-stone-200'
-                    }`}
-                  >
-                    <span
-                      className={`pointer-events-none inline-block h-4 w-4 rounded-full bg-white shadow transform transition-transform ${
-                        flag.enabled ? 'translate-x-4' : 'translate-x-0'
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => handleToggle(flag)}
+                      className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors ${
+                        flag.enabled ? 'bg-stone-800' : 'bg-stone-200'
                       }`}
-                    />
-                  </button>
+                    >
+                      <span
+                        className={`pointer-events-none inline-block h-4 w-4 rounded-full bg-white shadow transform transition-transform ${
+                          flag.enabled ? 'translate-x-4' : 'translate-x-0'
+                        }`}
+                      />
+                    </button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      disabled={deletingId === flag.id}
+                      onClick={e => { e.stopPropagation(); handleDelete(flag.id); }}
+                      className="text-stone-400 hover:text-red-500 hover:bg-red-50 text-xs h-7 px-2"
+                    >
+                      {deletingId === flag.id ? '...' : 'Delete'}
+                    </Button>
+                  </div>
                 </CardContent>
               </Card>
             ))}
