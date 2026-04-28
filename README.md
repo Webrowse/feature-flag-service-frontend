@@ -88,6 +88,10 @@ The repo ships a `Dockerfile` and `nixpacks.toml`. Railway picks up the Dockerfi
 
 All requests go through `src/api/client.ts`. It reads `VITE_API_URL` at startup, attaches `Authorization: Bearer <token>` from localStorage on authenticated requests, and throws on non-2xx responses with the server error message.
 
+## Related
+
+- **Backend API**: [feature-flag-service-backend](https://github.com/Webrowse/feature-flag-service-backend)
+
 ## Linting
 
 ```bash
