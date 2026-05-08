@@ -12,7 +12,7 @@ async function post<T>(path: string, body: unknown): Promise<T> {
   });
   const text = await res.text();
   if (!res.ok) throw new Error(text || res.statusText);
-  return JSON.parse(text);
+  return text ? (JSON.parse(text) as T) : ({} as T);
 }
 
 export const authApi = {
@@ -21,4 +21,10 @@ export const authApi = {
 
   login: (email: string, password: string) =>
     post<AuthResponse>('/auth/login', { email, password }),
+
+  requestPasswordReset: (email: string) =>
+    post('/auth/forgot-password', { email }),
+
+  resetPassword: (token: string, newPassword: string) =>
+    post('/auth/reset-password', { token, newPassword }),
 };
