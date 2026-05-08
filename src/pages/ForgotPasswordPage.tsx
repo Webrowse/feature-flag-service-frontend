@@ -11,19 +11,16 @@ export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-  const [devResetLink, setDevResetLink] = useState('');
   const [loading, setLoading] = useState(false);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setError('');
     setSuccess('');
-    setDevResetLink('');
     setLoading(true);
     try {
-      const response = await authApi.requestPasswordReset(email);
+      await authApi.requestPasswordReset(email);
       setSuccess('If your account exists, a password reset link has been sent to your email.');
-      setDevResetLink(response?.resetLink ?? response?.token ?? '');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to request password reset');
     } finally {
@@ -55,11 +52,6 @@ export default function ForgotPasswordPage() {
               </div>
               {error && <p className="text-xs text-red-500">{error}</p>}
               {success && <p className="text-xs text-green-700">{success}</p>}
-              {devResetLink && (
-                <p className="text-xs text-amber-700 break-all">
-                  Dev/test reset value returned by API: {devResetLink}
-                </p>
-              )}
             </CardContent>
             <CardFooter className="flex flex-col gap-3 pt-0">
               <Button type="submit" className="w-full bg-stone-700 hover:bg-stone-800 text-white" disabled={loading}>
