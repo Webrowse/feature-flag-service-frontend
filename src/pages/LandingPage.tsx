@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import bgIdea from '@/assets/bg_idea_1.png';
+import bgIdea from '@/assets/bg_idea_2.png';
 
 const features = [
   {
