@@ -53,16 +53,16 @@ export default function LandingPage() {
       </header>
 
       {/* Hero */}
-      <main className="flex-1 flex flex-col items-center justify-center text-center px-6 py-24">
-        <span className="inline-block text-xs font-medium tracking-widest text-stone-400 uppercase mb-6">
+      <main className="flex-1 flex flex-col items-center justify-center text-center px-6 py-4">
+        <span className="inline-block text-xs font-medium tracking-widest text-stone-400 uppercase mb-3">
           Open Source · Self-Hostable · REST API
         </span>
 
-        <h1 className="text-5xl md:text-6xl font-bold text-stone-900 leading-tight max-w-2xl mb-6">
+        <h1 className="text-5xl md:text-6xl font-bold text-stone-900 leading-tight max-w-2xl mb-4">
           Ship faster.<br />Break nothing.
         </h1>
 
-        <p className="text-lg text-stone-500 max-w-md mb-10 leading-relaxed">
+        <p className="text-lg text-stone-500 max-w-md mb-6 leading-relaxed">
           Control every feature in production without redeploying. Built for developers who move fast and need confidence.
         </p>
 
@@ -83,13 +83,13 @@ export default function LandingPage() {
         </div>
 
         {/* Feature cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-24 w-full max-w-4xl text-left">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8 w-full max-w-4xl text-left">
           {features.map(f => (
-            <Card key={f.title} className="bg-white border border-stone-200 shadow-sm">
-              <CardContent className="p-6">
-                <div className="text-2xl mb-4 text-stone-700">{f.icon}</div>
-                <h3 className="font-semibold text-stone-800 mb-2">{f.title}</h3>
-                <p className="text-sm text-stone-500 leading-relaxed">{f.desc}</p>
+            <Card key={f.title} className="bg-white/70 backdrop-blur-sm border border-stone-200 shadow-sm">
+              <CardContent className="p-4">
+                <div className="text-xl mb-2 text-stone-700">{f.icon}</div>
+                <h3 className="font-semibold text-stone-800 mb-1 text-sm">{f.title}</h3>
+                <p className="text-xs text-stone-500 leading-relaxed">{f.desc}</p>
               </CardContent>
             </Card>
           ))}
@@ -97,7 +97,7 @@ export default function LandingPage() {
       </main>
 
       {/* Footer */}
-      <footer className="py-6 text-center text-xs text-stone-400">
+      <footer className="py-3 text-center text-xs text-stone-400">
         © 2026 Feature Flag Service
       </footer>
     </div>
