@@ -35,10 +35,12 @@ export default function LoginPage() {
       <div className="w-full max-w-md px-4">
         <div className="text-center mb-8">
           <div className="inline-flex items-center gap-2 mb-6">
-            <div className="w-6 h-6 rounded bg-stone-700 flex items-center justify-center">
-              <span className="text-white text-xs font-bold">F</span>
-            </div>
-            <span className="text-stone-700 font-medium text-sm tracking-wide">Feature Flag Service</span>
+            <Link to="/" className="inline-flex items-center gap-2 hover:opacity-80 transition-opacity">
+              <div className="w-6 h-6 rounded bg-stone-700 flex items-center justify-center">
+                <span className="text-white text-xs font-bold">F</span>
+              </div>
+              <span className="text-stone-700 font-medium text-sm tracking-wide">Feature Flag Service</span>
+            </Link>
           </div>
           <h1 className="text-2xl font-semibold text-stone-800 mb-1">Welcome back</h1>
           <p className="text-stone-500 text-sm">Sign in to your account</p>
