@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import bgIdea from '@/assets/bg_idea_1.png';
 
 const features = [
   {
@@ -24,7 +25,15 @@ export default function LandingPage() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen flex flex-col" style={{ backgroundColor: '#F5F2EC' }}>
+    <div
+      className="min-h-screen flex flex-col"
+      style={{
+        backgroundImage: `url(${bgIdea})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+      }}
+    >
 
       {/* Navbar */}
       <header className="flex items-center justify-between px-8 py-5 max-w-6xl mx-auto w-full">
