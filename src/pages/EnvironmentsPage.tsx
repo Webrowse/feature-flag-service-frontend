@@ -22,6 +22,8 @@ export default function EnvironmentsPage() {
   const [newDesc, setNewDesc] = useState('');
   const [creating, setCreating] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
+  const [regenerating, setRegenerating] = useState(false);
 
   useEffect(() => {
     if (!projectId) return;
@@ -51,6 +53,27 @@ export default function EnvironmentsPage() {
       setError(err instanceof Error ? err.message : 'Failed to create environment');
     } finally {
       setCreating(false);
+    }
+  }
+
+  async function handleCopyKey() {
+    if (!project?.sdk_key) return;
+    await navigator.clipboard.writeText(project.sdk_key);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  }
+
+  async function handleRegenerateKey() {
+    if (!projectId) return;
+    if (!confirm('Regenerate SDK key? Your current key will stop working immediately.')) return;
+    setRegenerating(true);
+    try {
+      const updated = await projectsApi.regenerateKey(projectId);
+      setProject(updated);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to regenerate key');
+    } finally {
+      setRegenerating(false);
     }
   }
 
@@ -87,6 +110,37 @@ export default function EnvironmentsPage() {
         <div className="mb-8">
           <h1 className="text-2xl font-semibold text-stone-900">{project?.name}</h1>
           <p className="text-sm text-stone-500 mt-1">Select an environment to manage its feature flags</p>
+        </div>
+
+        <div className="mb-8 p-4 bg-white border border-stone-200 rounded-lg">
+          <div className="flex items-center justify-between mb-2">
+            <p className="text-sm font-medium text-stone-700">SDK Key</p>
+            <div className="flex gap-2">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleCopyKey}
+                className="text-xs h-7 px-2 text-stone-500 hover:text-stone-800"
+              >
+                {copied ? 'Copied!' : 'Copy'}
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleRegenerateKey}
+                disabled={regenerating}
+                className="text-xs h-7 px-2 text-stone-400 hover:text-red-500 hover:bg-red-50"
+              >
+                {regenerating ? '...' : 'Regenerate'}
+              </Button>
+            </div>
+          </div>
+          <code className="text-xs font-mono text-stone-600 bg-stone-50 px-3 py-2 rounded block break-all">
+            {project?.sdk_key ?? '—'}
+          </code>
+          <p className="text-xs text-stone-400 mt-2">
+            Use this in your app's <code className="font-mono">NEXT_PUBLIC_FFS_SDK_KEY</code> environment variable.
+          </p>
         </div>
 
         <form onSubmit={handleCreate} className="flex gap-3 mb-8">
