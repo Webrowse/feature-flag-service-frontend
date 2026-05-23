@@ -43,13 +43,23 @@ export default function LandingPage() {
           </div>
           <span className="font-semibold text-stone-800 tracking-tight">Feature Flag Service</span>
         </div>
-        <Button
-          variant="outline"
-          className="border-stone-300 text-stone-700 hover:bg-stone-100"
-          onClick={() => navigate('/login')}
-        >
-          Sign in
-        </Button>
+        <div className="flex items-center gap-3">
+          <a
+            href="https://docs.ffs.adarshrust.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm text-stone-500 hover:text-stone-800 transition-colors"
+          >
+            Docs
+          </a>
+          <Button
+            variant="outline"
+            className="border-stone-300 text-stone-700 hover:bg-stone-100"
+            onClick={() => navigate('/login')}
+          >
+            Sign in
+          </Button>
+        </div>
       </header>
 
       {/* Hero */}
