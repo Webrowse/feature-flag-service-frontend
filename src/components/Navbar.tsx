@@ -23,14 +23,24 @@ export default function Navbar() {
           </div>
           <span className="font-semibold text-stone-800 tracking-tight text-sm">Feature Flag Service</span>
         </div>
-        <Button
-          variant="ghost"
-          size="sm"
-          className="text-stone-500 hover:text-stone-800 hover:bg-stone-100"
-          onClick={handleLogout}
-        >
-          Logout
-        </Button>
+        <div className="flex items-center gap-2">
+          <a
+            href="https://docs.ffs.adarshrust.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm text-stone-500 hover:text-stone-800 px-3 py-1.5 rounded hover:bg-stone-100 transition-colors"
+          >
+            Docs
+          </a>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="text-stone-500 hover:text-stone-800 hover:bg-stone-100"
+            onClick={handleLogout}
+          >
+            Logout
+          </Button>
+        </div>
       </div>
     </nav>
   );
